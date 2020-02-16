@@ -1,2 +1,56 @@
 # survey-service
-This is the job interview result for an http://data-master.msk.ru. It's a simple RESTful service manipulating surveys. It's allow to Create/Read/Update/Delete surveys and associated questions. More detail task formulation and description are presented in README.md
+
+# This is the job interview result for an http://data-master.msk.ru. 
+  It's a simple RESTful service manipulating surveys. 
+  It's allow to Create/Read/Update/Delete surveys and associated questions. 
+  More detail task formulation and description are presented in README.md
+
+# Для запуска приложения потребуется:
+0. Установить docker
+1. Склонировать репозиторий
+2. Через коммандную строку перейти в директорию проекта путь_к_директории_репозитория/survey-service
+3. Выполнить команду docker-compose up (или docker-compose up --build)
+4. Открыть браузер адрес http://localhost:8081/survey-service/swagger-ui.html
+5. Дождаться прогрузки форм сваггера
+
+# Не все требования были кристальн оясны, поэтому
+- продумал не всю валидацию
+- незнал как планируется выполнять выборку опросов (контракты обычно с фронтом можно обсудить), поэтому сделал вывод опросов в контроллере Survey-Controller, а вопросов в Question-Controller
+
+# Выполнение задания составило 6,5 часа
+
+# Постановка задачи
+
+Необходимо создать REST-сервис для управления опросами.
+
+Структура данных:
+    
+    Опрос
+    --------------------
+    Наименование опроса
+    Дата начала
+    Дата окончания
+    Активность (да/нет)
+
+
+    Вопрос опроса
+    --------------------
+    Ссылка на опрос
+    Текст вопроса
+    Порядок отображения
+
+
+REST-сервис должен предоставлять следующие методы:
+    - Получить все опросы (Опционально можно передать фильтр по наименованию, дате, активности. Обязательно указание сортировки: по наименованию или по дате начала опроса. Должна поддерживаться пагинация.)
+    - Создание опроса
+    - Редактирование опроса
+    - Удаление опроса
+
+Сервис должен предоставлять документацию с использованием Swagger.
+Сервис при первом запуске должен самостоятельно создавать необходимые объекты в БД с помощью Liquibase.
+Необходимо использовать PostgreSQL.
+
+Для реализации необходимо использовать Java 8, Spring Boot, Hibernate, PostgreSQL, Liquibase.
+Исходный код загрузить в GitHub и в описании указать краткую инструкцию по запуску приложения.
+
+

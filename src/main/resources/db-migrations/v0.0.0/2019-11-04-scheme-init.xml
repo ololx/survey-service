@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!--<Инициализация таблицы "Опрос"-->
+    <changeSet
+            id="2019-11-04-scheme-init-survey"
+            author="ol_lx@icloud.com"
+            logicalFilePath="2019-11-04-scheme-init.xml"
+    >
+
+        <createTable tableName="survey">
+            <column name="uid" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="survey_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="finish_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="relevance" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-->Инициализация таблицы "Опрос"-->
+
+    <!--<Инициализация таблицы "Вопрос опроса"-->
+    <changeSet
+            id="2019-11-04-scheme-init-question"
+            author="ol_lx@icloud.com"
+            logicalFilePath="2019-11-04-scheme-init.xml"
+    >
+
+        <createTable tableName="question">
+            <column name="uid" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="question_pkey"/>
+            </column>
+            <column name="survey_uid" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(700)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="survey_uid"
+                                 baseTableName="question"
+                                 constraintName="question_survey_fk"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="uid"
+                                 referencedTableName="survey"/>
+
+        <addUniqueConstraint catalogName="catalog"
+                             columnNames="survey_uid, number"
+                             constraintName="question_survey_unique"
+                             deferrable="true"
+                             disabled="true"
+                             initiallyDeferred="true"
+                             schemaName="public"
+                             tableName="question"/>
+    </changeSet>
+    <!-->Инициализация таблицы "Вопрос опроса"-->
+</databaseChangeLog>

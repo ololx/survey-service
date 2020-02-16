@@ -1,0 +1,35 @@
+version: '2.1'
+services:
+  survey_service_db:
+    container_name: survey_service_db
+    restart: always
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=survey_service
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 20s
+      retries: 4
+  survey_service:
+    container_name: survey_service
+#    image: tomcat:9.0
+    restart: always
+#    volumes:
+#      - ./target/survey-service-0.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/survey-service.war
+#    ports:
+#      - "8080:8080"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      survey_service_db:
+        condition: service_healthy
+    links:
+      - survey_service_db      
